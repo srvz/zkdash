@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    expose:
+      - 3306
+    ports:
+      - 33306:3306
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: zkdash
+      MYSQL_USER: zkdash
+      MYSQL_PASSWORD: zkdash!!!
+    volumes: 
+      - zkdb:/var/lib/mysql
+    networks:
+      - zkdash
+  zkdash:
+    image: srvz/zkdash
+    environment:
+      DB_HOST: db
+      DB_NAME: zkdash
+      DB_USER: zkdash
+      DB_PASSWD: zkdash!!!
+      WAIT_TIME: 21
+    ports:
+      - 8888:8888
+    networks:
+      - zkdash
+    depends_on:
+      - db
+volumes: 
+  zkdb:
+    name: zkdb
+networks:
+  zkdash:
+    name: zkdash
+    attachable: true

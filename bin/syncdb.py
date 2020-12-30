@@ -32,11 +32,35 @@ def sync_db():
     models = find_subclasses(ZKDASH_DB.Model)
     for mod in models:
         if mod.table_exists():
+            print "table exists: %s, continue!" % mod._meta.db_table
+            continue
+        mod.create_table()
+        print "created table: %s" % mod._meta.db_table
+
+
+def reset_db():
+    """reset db
+    """
+    # firstly, import all modules of model.db package
+    prefix = model.db.__name__ + "."
+    for importer, modname, ispkg in pkgutil.iter_modules(model.db.__path__, prefix):
+        __import__(modname)
+
+    # then, find all subclasses of WARSHIP_DB.Model
+    models = find_subclasses(ZKDASH_DB.Model)
+    for mod in models:
+        if mod.table_exists():
             print "table exists: %s, drop it!" % mod._meta.db_table
             mod.drop_table()
         mod.create_table()
         print "created table: %s" % mod._meta.db_table
 
-
 if __name__ == '__main__':
-    sync_db()
+    args = sys.argv
+    cmd = None
+    if len(args) > 1:
+        cmd = args[1]
+    if cmd == 'reset_db':
+        reset_db()
+    else:
+        sync_db()

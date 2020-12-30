@@ -2,6 +2,41 @@
 
 zkdash是一个zookeeper的管理界面，也可以作为任何基于zookeeper的配置管理项目比如：Qconf
 
+
+## 使用 docker 运行
+
+```
+docker run -d --init \
+  --name zkdash \
+  -p 8888:8888 \
+  -e DB_HOST=db \
+  -e DB_PORT=3306 \
+  -e DB_NAME=zkdash \
+  -e DB_USER=zkdash \
+  -e DB_PASSWD="zkdash!!!" \
+  -e WAIT_TIME=0 \
+  srvz/zkdash
+```
+
+### 环境变量
+
+```
+DB_HOST: db
+DB_PORT: 3306
+DB_NAME: zkdash
+DB_USER: zkdash
+DB_PASSWD: zkdash!!!
+WAIT_TIME: 20 // 等待 mysql 初始化的时间，如果 mysql 已启动，此项可设置为 0。默认为 20 秒
+USE_QCONF: True // 是否通过QConf获取zookeeper数据。默认为 False
+```
+
+## 使用 docker-compose 运行
+
+```
+docker-compose up -d
+OR
+docker-compose -f docker-compose-zookeeper.yaml # 同时启动 zookeeper
+```
 ## 开发规划
 zkdash目前正在开发第二版本，更易用，更开发，拥有完善权限管理，支持zk，更易用。
 

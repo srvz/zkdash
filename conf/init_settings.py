@@ -34,7 +34,15 @@ def create_settings_module(file_name):
         conf_data = yaml.load(conf_file)
         if not isinstance(conf_data, dict):
             raise Exception("config file not parsed correctly")
-
+    tmp = conf_data['DATABASE']
+    conf_data['DATABASE'] = {
+        'host': os.getenv('DB_HOST', tmp['host']),
+        'port': os.getenv('DB_PORT', tmp['port']),
+        'db': os.getenv('DB_NAME', tmp['db']),
+        'user': os.getenv('DB_USER', tmp['user']),
+        'passwd':os.getenv('DB_PASSWD', tmp['passwd'])
+    }
+    conf_data['USE_QCONF'] = os.getenv('DB_NAME', conf_data['USE_QCONF']) == 'True'
     module = imp.new_module('settings')
     module.__dict__.update(conf_data)
     module.__dict__.update({'OPTIONS': options})
