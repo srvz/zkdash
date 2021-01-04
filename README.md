@@ -35,7 +35,7 @@ USE_QCONF: True // 是否通过QConf获取zookeeper数据。默认为 False
 ```
 docker-compose up -d
 OR
-docker-compose -f docker-compose-zookeeper.yaml # 同时启动 zookeeper
+docker-compose -f docker-compose-zookeeper.yaml up -d # 同时启动 zookeeper
 ```
 ## 开发规划
 zkdash目前正在开发第二版本，更易用，更开发，拥有完善权限管理，支持zk，更易用。
