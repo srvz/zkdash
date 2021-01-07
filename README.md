@@ -37,6 +37,13 @@ docker-compose up -d
 OR
 docker-compose -f docker-compose-zookeeper.yaml up -d # 同时启动 zookeeper
 ```
+
+## 获取 zookeeper IP
+**zkdash 配置 zookeeper 必须指定 ip，不能使用 hostname**
+```
+docker inspect zkdash_zk_1 -f "{{.NetworkSettings.Networks.zkdash.IPAddress}}"
+```
+
 ## 开发规划
 zkdash目前正在开发第二版本，更易用，更开发，拥有完善权限管理，支持zk，更易用。
 
